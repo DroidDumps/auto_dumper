@@ -25,6 +25,7 @@ jobs:
           git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
           cd DumprX
           sudo bash ./setup.sh || exit 1
+          export PATH="${PATH}:/root/.local/bin"  # Fix for uv and uvx missing commands
           echo "$GITHUB_TOKEN" > .github_token
           echo "$GIT_ORG" > .github_orgname
           echo "$TG_TOKEN" > .tg_token
