@@ -1,0 +1,33 @@
+name: CI (Alt)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ROM_LINK:
+        description: "Direct Link of ROM/Firmware"
+        required: true
+
+env:
+  ROM_LINK: ${{ github.event.inputs.ROM_LINK }}
+  GIT_ORG: "DroidDumps"
+  TG_TOKEN: ${{ secrets.TG_TOKEN }}
+  CHAT_ID: ${{ secrets.CHAT_ID }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Dump Firmware
+        run: |
+          mkdir -p ~/job && cd ~/job
+          git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
+          cd DumprX
+          sudo bash ./setup.sh || exit 1
+          echo "$GITHUB_TOKEN" > .github_token
+          echo "$GIT_ORG" > .github_orgname
+          echo "$TG_TOKEN" > .tg_token
+          echo "$CHAT_ID" > .tg_chat
+          ./dumper.sh "${ROM_LINK}" || exit 1
+
