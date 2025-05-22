@@ -25,7 +25,7 @@ jobs:
           credential: "yes"
           git_cookies: "no"
         env:
-          PAT: ${{ secrets.GITHUB_TOKEN }}
+          PAT: ${{ secrets.GH_TOKEN }}
       - name: Dump Firmware
         run: |
           mkdir -p ~/job && cd ~/job
