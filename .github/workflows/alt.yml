@@ -22,11 +22,11 @@ jobs:
       - name: Dump Firmware
         run: |
           mkdir -p ~/job && cd ~/job
-          git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git
+          git clone --depth=1 --filter=blob:none https://github.com/DumprX/DumprX.git
           cd DumprX
-          sudo bash ./setup.sh || exit 1
-          sudo apt install neofetch -qy
-          bash -c "$(curl -sL https://astral.sh/uv/install.sh)"
+          sudo -EH bash ./setup.sh || exit 1
+          sudo apt-get install neofetch -qy
+          # bash -c "$(curl -sL https://astral.sh/uv/install.sh)"
           . ~/.bashrc
           echo "$GITHUB_TOKEN" > .github_token
           echo "$GIT_ORG" > .github_orgname
