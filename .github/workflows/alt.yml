@@ -25,6 +25,7 @@ jobs:
           git clone --depth=1 --filter=blob:none https://github.com/DumprX/DumprX.git
           cd DumprX
           sudo -EH bash ./setup.sh || exit 1
+          source /root/.local/bin/env
           sudo apt-get install neofetch -qy
           # bash -c "$(curl -sL https://astral.sh/uv/install.sh)"
           . ~/.bashrc
