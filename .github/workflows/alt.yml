@@ -28,7 +28,7 @@ jobs:
           sudo -EH bash ./setup.sh || exit 1
           sudo apt-get install neofetch -qy
           bash -c "$(curl -sL https://astral.sh/uv/install.sh)"
-          source ${HOME}/.local/bin/env
+          ls -lAog ${HOME}/.local/bin/
           . ~/.bashrc
           echo "$GITHUB_TOKEN" > .github_token
           echo "$GIT_ORG" > .github_orgname
