@@ -28,7 +28,14 @@ jobs:
           PAT: ${{ secrets.GH_TOKEN }}
       - name: Dump Firmware
         run: |
-          mkdir -p ~/job && cd ~/job
+          # Cleanup Space [Inherits inline block groups, so avoid adding another here]
+          export cleanerAddr="https://gist.github.com/rokibhasansagar/27271d28d0d6fa2d4a8d3b6253ffb5cd"
+          export cleanRef=$(git ls-remote -q "${cleanerAddr}" HEAD | awk '{print $1}')
+          export ROOT_RESERVE_MB=10240 TEMP_RESERVE_MB=10240
+          ( curl -sL --retry 8 --retry-connrefused "${cleanerAddr}/raw/${cleanRef}/maximize.space.sh" | bash 2>/dev/null )
+          # Run dumper in unified volume
+          mkdir -p /data/job && cd /data/job
+          echo "::group:: Preparing Dumper"
           git clone -q --depth=1 --filter=blob:none https://github.com/DumprX/DumprX.git
           cd DumprX
           sed -i '/astral/d' ./setup.sh
@@ -41,5 +48,8 @@ jobs:
           echo "$GIT_ORG" > .github_orgname
           echo "$TG_TOKEN" > .tg_token
           echo "$CHAT_ID" > .tg_chat
+          echo "::endgroup::"
+          echo "::group:: [DUMP JOB]"
           ./dumper.sh "${ROM_LINK}" || exit 1
+          echo "::endgroup::"
 
